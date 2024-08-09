@@ -10,7 +10,7 @@ class CategorySelection extends StatefulWidget {
 
 class _CategorySelectionState extends State<CategorySelection> {
   String? selectedCategory;
-  int questionCount = 10; // Default number of questions
+  var questionCount = TextEditingController();
   Map<String, dynamic> data = {};
   var _ = Language.translate;
 
@@ -48,38 +48,24 @@ class _CategorySelectionState extends State<CategorySelection> {
                       });
                     },
                   ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(_("Number of questions:")),
-                      DropdownButton<int>(
-                        value: questionCount,
-                        items: [5, 10, 15, 20].map((int value) {
-                          return DropdownMenuItem<int>(
-                            value: value,
-                            child: Text(value.toString()),
-                          );
-                        }).toList(),
-                        onChanged: (int? value) {
-                          setState(() {
-                            questionCount = value ?? 10;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+
+                    TextFormField(controller:questionCount ,decoration: InputDecoration(labelText: _("number of questions :")),keyboardType: TextInputType.number,onChanged:(var text){
+                      setState(() {
+                        
+                      });
+                    } ,),
+                    
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed:selectedCategory == null||questionCount.text==""
+                  ?null
+                   :() {
                     if (selectedCategory != null) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => TestScreen(
                             category: selectedCategory!,
-                            count: questionCount,
+                            count: int.parse(questionCount.text),
                             data: data,
                           ),
                         ),

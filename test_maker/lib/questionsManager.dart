@@ -58,15 +58,18 @@ class _questionsManagerState extends State<questionsManager> {
               },
               child: Text(_("add")),
             ),
-            for (var question in data[widget.category].keys.toList())
-              ListTile(
+            Expanded(child: 
+            ListView.builder(itemBuilder: (context,index){
+              var question=data[widget.category].keys.toList()[index];
+              return               ListTile(
                 title: Text(question.toString()),
                 onLongPress: () async {
                   data[widget.category].remove(question);
                   await save(data);
                   setState(() {});
                 },
-              ),
+              );
+            },itemCount: data[widget.category].keys.toList().length,)),
           ],
         ),
       ),
